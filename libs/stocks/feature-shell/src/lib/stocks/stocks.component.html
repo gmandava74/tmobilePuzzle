@@ -4,6 +4,7 @@
       matInput
       placeholder="Symbol e.g AAPL"
       formControlName="symbol"
+      (blur)="fetchQuote()"
       value=""
     />
     <mat-error
@@ -23,6 +24,7 @@
       <mat-option
         *ngFor="let timePeriod of timePeriods"
         [value]="timePeriod.value"
+        (blur)="fetchQuote()"
       >
         {{ timePeriod.viewValue }}
       </mat-option>
@@ -32,4 +34,4 @@
   <button (click)="fetchQuote()" mat-raised-button>Go</button>
 </form>
 
-<coding-challenge-chart [data$]="quotes$"></coding-challenge-chart>
+<coding-challenge-chart [chartData]="chartData"></coding-challenge-chart>

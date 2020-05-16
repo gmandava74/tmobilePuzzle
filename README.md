@@ -44,8 +44,11 @@ Please provide a short code review of the base `master` branch:
 
 #### Task 1-A
 1. What is done well?
+The project Architecture is implemented well. But their are small issues which needs to be fixed.
 2. What would you change?
+I would fix the bugs.
 3. Are there any code smells or problematic implementations?
+I would fix the issue for displaying the graph which is in the file stocks.components.ts
 
 > Make a PR to fix at least one of the issues that you identify
 

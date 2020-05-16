@@ -6,7 +6,8 @@ import { StocksAppConfig } from '@coding-challenge/stocks/data-access-app-config
 
 export const environment: StocksAppConfig = {
   production: false,
-  apiKey: '',
+  // apiKey:: I used a free token from iexCloud
+  apiKey: 'Tsk_fae9a0a96cad47439dc204ca4fa6165a',
   apiURL: 'https://sandbox.iexapis.com'
 };
 
