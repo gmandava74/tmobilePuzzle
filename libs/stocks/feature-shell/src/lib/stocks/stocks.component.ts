@@ -11,8 +11,7 @@ export class StocksComponent implements OnInit {
   stockPickerForm: FormGroup;
   symbol: string;
   period: string;
-
-  quotes$ = this.priceQuery.priceQueries$;
+  chartData : any;
 
   timePeriods = [
     { viewValue: 'All available data', value: 'max' },
@@ -39,5 +38,9 @@ export class StocksComponent implements OnInit {
       const { symbol, period } = this.stockPickerForm.value;
       this.priceQuery.fetchQuote(symbol, period);
     }
+
+    this.priceQuery.priceQueries$.subscribe(newData => {
+      this.chartData = newData;
+    });
   }
 }
