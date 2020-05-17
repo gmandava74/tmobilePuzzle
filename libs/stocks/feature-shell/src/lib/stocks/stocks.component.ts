@@ -21,13 +21,16 @@ export class StocksComponent implements OnInit {
     { viewValue: 'Year-to-date', value: 'ytd' },
     { viewValue: 'Six months', value: '6m' },
     { viewValue: 'Three months', value: '3m' },
-    { viewValue: 'One month', value: '1m' }
+    { viewValue: 'One month', value: '1m' },
+    { viewValue: 'Specific Dates', value: 'sd' }
   ];
 
   constructor(private fb: FormBuilder, private priceQuery: PriceQueryFacade) {
     this.stockPickerForm = fb.group({
       symbol: [null, Validators.required],
-      period: [null, Validators.required]
+      period: [null, Validators.required],
+      startDate:[],
+      endDate:[]
     });
   }
 
@@ -36,11 +39,36 @@ export class StocksComponent implements OnInit {
   fetchQuote() {
     if (this.stockPickerForm.valid) {
       const { symbol, period } = this.stockPickerForm.value;
-      this.priceQuery.fetchQuote(symbol, period);
+      if(period === 'sd') {
+        const { startDate, endDate } = this.stockPickerForm.value;
+        this.priceQuery.fetchQuoteByDates(symbol,startDate, endDate);
+      } else {
+        this.priceQuery.fetchQuote(symbol, period);
+      }
     }
 
     this.priceQuery.priceQueries$.subscribe(newData => {
       this.chartData = newData;
     });
   }
+
+  getMinEndDate() {
+    const { startDate } = this.stockPickerForm.value;
+    if(startDate) {
+      return startDate;
+    }
+    return null;
+  }
+
+  getMaxDate() {
+    return new Date();
+  }
+
+  refreshData() {
+    console.log (this.stockPickerForm.value);
+    if (this.stockPickerForm.value.period != 'sd'){
+      this.fetchQuote();
+    }
+  }
+
 }
