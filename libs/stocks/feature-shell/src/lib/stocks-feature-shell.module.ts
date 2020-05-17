@@ -4,12 +4,14 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatButtonModule
+  MatButtonModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { SharedUiChartModule } from '@coding-challenge/shared/ui/chart';
 import { StocksComponent } from './stocks/stocks.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -17,11 +19,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: StocksComponent }
     ]),
+    FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     SharedUiChartModule
   ],
   declarations: [StocksComponent]

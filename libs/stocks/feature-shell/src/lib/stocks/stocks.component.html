@@ -1,13 +1,12 @@
 <form [formGroup]="stockPickerForm">
-  <mat-form-field>
+  <mat-form-field [attr.aria-label]="symbol">
     <input
       matInput
       placeholder="Symbol e.g AAPL"
       formControlName="symbol"
-      (blur)="fetchQuote()"
       value=""
     />
-    <mat-error
+    <mat-error 
       ><span
         *ngIf="
           !stockPickerForm.get('symbol').valid &&
@@ -18,19 +17,42 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field [attr.aria-label]="period">
     <mat-label>Favorite time period</mat-label>
-    <mat-select formControlName="period">
+    <mat-select formControlName="period"
+    (ngModelChange)="refreshData()">
       <mat-option
+        [attr.aria-label]="timePeriod"
         *ngFor="let timePeriod of timePeriods"
         [value]="timePeriod.value"
-        (blur)="fetchQuote()"
       >
         {{ timePeriod.viewValue }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
+ <div *ngIf="stockPickerForm.get('period') && stockPickerForm.get('period').value === 'sd'">
+ <mat-form-field class="date-picker">
+          <input matInput
+          [matDatepicker]="startDatePicker"
+          formControlName="startDate"
+          [max]="getMaxDate()"
+          placeholder="StartDate" />
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+   </mat-form-field>        
+
+<mat-form-field class="date-picker">
+          <input matInput
+          [matDatepicker]="endDatePicker"
+          formControlName="endDate"
+          [min]="getMinEndDate()"
+          [max]="getMaxDate()"
+          placeholder="EndDate" />
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+  </mat-form-field>      
+</div>
   <button (click)="fetchQuote()" mat-raised-button>Go</button>
 </form>
 
