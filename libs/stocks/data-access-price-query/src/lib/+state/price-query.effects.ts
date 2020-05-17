@@ -11,7 +11,8 @@ import {
   FetchPriceQuery,
   PriceQueryActionTypes,
   PriceQueryFetched,
-  PriceQueryFetchError
+  PriceQueryFetchError,
+  FetchPriceByDatesQuery
 } from './price-query.actions';
 import { PriceQueryPartialState } from './price-query.reducer';
 import { PriceQueryResponse } from './price-query.type';
@@ -27,13 +28,51 @@ export class PriceQueryEffects {
             `${this.env.apiURL}/beta/stock/${action.symbol}/chart/${
               action.period
             }?token=${this.env.apiKey}`
-          )
+          ) 
+
+         /*return this.httpClient
+          .get(
+            `${this.env.apiURL}/api/fetchStocks/${action.symbol}/${
+              action.period
+            }?token=${this.env.apiKey}`
+          )*/
           .pipe(
-            map(resp => new PriceQueryFetched(resp as PriceQueryResponse[]))
+            map(resp => {
+              console.log(resp)
+              return new PriceQueryFetched(resp as PriceQueryResponse[]);
+            })
           );
       },
 
       onError: (action: FetchPriceQuery, error) => {
+        return new PriceQueryFetchError(error);
+      }
+    }
+  );
+
+  @Effect() loadPriceDateQuery$ = this.dataPersistence.fetch(
+    PriceQueryActionTypes.FetchPriceDatesQuery,
+    {
+      run: (action: FetchPriceByDatesQuery, state: PriceQueryPartialState) => {
+        /*return this.httpClient
+          .get(
+            `${this.env.apiURL}/beta/stock/${action.symbol}/chart/${
+              action.period
+            }?token=${this.env.apiKey}`
+          )*/
+
+          return this.httpClient
+          .get(
+            `${this.env.apiURL}/beta/stock/${action.symbol}/chart/${action.startDate}/${action.endDate}?token=${this.env.apiKey}`
+          )        
+          .pipe(
+            map(resp => {
+              console.log(resp)
+              return new PriceQueryFetched(resp as PriceQueryResponse[]);
+            })
+          );
+      },
+      onError: (action: FetchPriceByDatesQuery, error) => {
         return new PriceQueryFetchError(error);
       }
     }
