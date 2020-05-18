@@ -3,12 +3,25 @@
  * This is only a minimal backend to get started.
  **/
 import { Server } from 'hapi';
+import { fetchStocks } from './controller/stocks.api.controller';
 
 const init = async () => {
+ // const server = new Server({
+  //  port: 3333,
+  //  host: 'localhost'
+  //});
+
   const server = new Server({
     port: 3333,
     host: 'localhost'
-  });
+  }
+  );
+
+  const add = async (a, b) => {
+
+    return Number(a) + Number(b);
+};
+
 
   server.route({
     method: 'GET',
@@ -18,6 +31,12 @@ const init = async () => {
         hello: 'world'
       };
     }
+  });
+
+server.route({
+    method: 'GET',
+    path: '/api/fetchStocks/{stockType}/{stcokPeriod}',
+    handler: fetchStocks
   });
 
   await server.start();
