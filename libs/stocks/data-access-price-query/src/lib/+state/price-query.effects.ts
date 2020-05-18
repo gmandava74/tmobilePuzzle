@@ -63,12 +63,14 @@ export class PriceQueryEffects {
 
           return this.httpClient
           .get(
-            `${this.env.apiURL}/beta/stock/${action.symbol}/chart/${action.startDate}/${action.endDate}?token=${this.env.apiKey}`
-          )        
+            `${this.env.apiURL}/api/fetchStocks/${action.symbol}/max?token=${this.env.apiKey}`
+          )
           .pipe(
             map(resp => {
-              console.log(resp)
-              return new PriceQueryFetched(resp as PriceQueryResponse[]);
+              const fullResponse : PriceQueryResponse[] = resp as PriceQueryResponse[]
+              const filterResponse : PriceQueryResponse[] =  fullResponse.filter( (res :PriceQueryResponse) => res.date && new Date(res.date) > new Date(action.startDate)
+               &&  new Date(res.date) < new Date(action.endDate))
+              return new PriceQueryFetched(filterResponse);
             })
           );
       },
