@@ -8,7 +8,7 @@ export const environment: StocksAppConfig = {
   production: false,
   // apiKey:: I used a free token from iexCloud
   apiKey: 'Tsk_fae9a0a96cad47439dc204ca4fa6165a',
-  apiURL: 'https://sandbox.iexapis.com'
+  apiURL: ''
 };
 
 /*
