@@ -5,6 +5,7 @@
       placeholder="Symbol e.g AAPL"
       formControlName="symbol"
       value=""
+      aria-label="Please enter a symbol, you are currently on a text input field, inside of web content. To enter text in this field, type."
     />
     <mat-error 
       ><span
@@ -17,7 +18,8 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field [attr.aria-label]="period">
+  <mat-form-field [attr.aria-label]="period"
+  aria-label="Favorite time period">
     <mat-label>Favorite time period</mat-label>
     <mat-select formControlName="period"
     (ngModelChange)="refreshData()">
@@ -53,7 +55,7 @@
           <mat-datepicker #endDatePicker></mat-datepicker>
   </mat-form-field>      
 </div>
-  <button (click)="fetchQuote()" mat-raised-button>Go</button>
+  <button (click)="fetchQuote()" mat-raised-button aria-label="Go Button">Go</button>
 </form>
 
 <coding-challenge-chart [chartData]="chartData"></coding-challenge-chart>
